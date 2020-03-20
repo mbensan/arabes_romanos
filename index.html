@@ -9,14 +9,44 @@
     <title>Repaso Corona Virus</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   </head>
   <body>
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <div class="container">
+      <nav class="navbar navbar-dark bg-dark">
+        <h2 style="color: white">Arabes y Romanos</h2>
+      </nav>
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+          <form>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Texto</label>
+              <input type="text" class="form-control" id="texto">
+            </div>
+            <button id="arabes" type="button" class="btn btn-primary">Arabes</button>
+            <button id="romanos" type="button" class="btn btn-primary">Romanos</button>
+          </form>
+        </div>
+        <div class="col-3"></div>
+      </div>
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+          <h3>Textos transformados</h3>
+          <ul id="transformados">
 
+          </ul>
+        </div>
+        <div class="col-3"></div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script>
       function num_palabras(num) {
         // return palabras
@@ -25,18 +55,26 @@
         if (num <= 15) {
           // estos son los primeros 15
           return primeros_numeros[num];
+
         } else if (num < 20) {
           // estos son los dieci algo
+
           var unidades = num - 10;
           return 'dieci' + num_palabras(unidades);
+
         } else if (num == 20) {
+
           return 'veinte';
+        
         } else if (num < 30) {
-          // estos son los veini algo
+          // estos son los veinti algo
+
           var unidades = num - 20;
           return 'veinti' + num_palabras(unidades);
+
         } else if (num < 100) {
           // estos son los entre 30 y 99
+
           var decenas = Math.floor(num / 10);
           var unidades = num - (decenas * 10);
 
@@ -65,6 +103,7 @@
             return string_centenas[centenas - 1];
           }
           return string_centenas[centenas - 1] + ' ' + num_palabras(resto_num);
+
         } else if (num < 1000000) {
 
           // estos son los entre 1000 y 999999
@@ -74,19 +113,46 @@
           if (resto_num == 0) {
             return num_palabras(miles) + ' mil';
           }
-          return num_palabras(miles) + ' mil ' + num_palabras(resto_num);
+          return num_palabras(miles) + ' mil, ' + num_palabras(resto_num);
         }
 
       }
       //num_palabras(5);
       
-      $(document).ready(function() {
-        // esta es una función anónima autoejecutable
-        (function () {
-          var fecha = new Date();
-          console.log(fecha);
-        })();
+      function num_romanos(num) {
+        return 'X';
+      }
 
+      $(document).ready(function() {
+        // acá parto
+        $('#arabes, #romanos').on('click', function(ev) {
+          // evito que se recargue la página
+          ev.preventDefault();
+
+          var frase = $('#texto').val();
+          frase = frase.split(' ');
+          
+          for (var i=0; i < frase.length; ++i) {
+            if (!isNaN(frase[i])) {
+              // se ejecuta solo para los textos que sean números
+              var num = parseInt(frase[i]);
+
+              // acá lo transformo
+              if ($(this).attr('id') == 'arabes') {
+                num = num_palabras(num);
+              } else {
+                num = num_romanos(num);
+              }
+              frase[i] = num;
+            }
+          }
+          // lo transformo de nuevo a string
+          frase = frase.join(' ');
+          // lo meto al dom
+          $('#transformados').append('<li>' + frase + '</li>');
+          // reseteo el input
+          $('#texto').val('');
+        });
 
       });
     </script>
