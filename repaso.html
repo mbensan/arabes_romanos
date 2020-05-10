@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repaso de Javascript</title>
+</head>
+<body>
+  <div>
+    <p>Ingrese palabra <input type="text" id="texto"></p>
+    <p><button onclick="chequear_palindrome()">Chequear si es un palíndrome</button></p>
+    <p id="resultado"></p>
+  </div>
+
+  <script>
+    // ejecutar nuestro código javascript
+    function chequear_palindrome() {
+      // 1. capturar el valor del input. OK
+      var input_texto = document.getElementById('texto');
+      var texto = input_texto.value;
+
+      // sacar los espacios al inicio y al final
+      // pasar todo a mayusculas
+
+      // 2. verificar si es o no palíndrome
+      var largo_texto = texto.length;
+      var es_palindrome = true;
+
+      for (var i = 0; i <= largo_texto / 2; i++) {
+        if (texto[i] != texto[largo_texto - 1 - i]) {
+          es_palindrome = false;
+        }
+      }
+
+      // 3. escribir el resultado en la página
+      var resultado = document.getElementById('resultado');
+
+      if (es_palindrome) {
+        resultado.innerHTML = texto + ' sí es palíndrome';
+      } else {
+        resultado.innerHTML = texto + ' no es palíndrome';
+      }
+
+      // 4. Limpiar el input
+      input_texto.value = '';
+    }
+  </script>
+</body>
+</html>
