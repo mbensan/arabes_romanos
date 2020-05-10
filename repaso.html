@@ -4,23 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Repaso de Javascript</title>
+  <style>
+    #resultado {
+      text-align: center;
+    }
+    .verde {
+      color: green;
+    }
+    .rojo {
+      color: red;
+    }
+  </style>
 </head>
 <body>
   <div>
-    <p>Ingrese palabra <input type="text" id="texto"></p>
+    <p>Ingrese palabra <input type="text" id="texto" onkeyup="detectar_enter(event)"></p>
+    
     <p><button onclick="chequear_palindrome()">Chequear si es un palíndrome</button></p>
+    
     <p id="resultado"></p>
   </div>
 
   <script>
-    // ejecutar nuestro código javascript
     function chequear_palindrome() {
       // 1. capturar el valor del input. OK
       var input_texto = document.getElementById('texto');
       var texto = input_texto.value;
 
       // sacar los espacios al inicio y al final
+      texto = texto.trim();
       // pasar todo a mayusculas
+      texto = texto.toUpperCase();
 
       // 2. verificar si es o no palíndrome
       var largo_texto = texto.length;
@@ -37,12 +51,20 @@
 
       if (es_palindrome) {
         resultado.innerHTML = texto + ' sí es palíndrome';
+        resultado.className = 'verde';
       } else {
         resultado.innerHTML = texto + ' no es palíndrome';
+        resultado.className = 'rojo';
       }
 
       // 4. Limpiar el input
       input_texto.value = '';
+    }
+    
+    function detectar_enter(event) {
+      if (event.keyCode == 13) { // cuando el usuario presiona enter
+        chequear_palindrome();
+      }
     }
   </script>
 </body>
